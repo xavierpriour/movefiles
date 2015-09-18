@@ -1,6 +1,7 @@
 'use strict';
 
 var shell = require('shelljs');
+var mv = require('mv');
 var fs = require('fs');
 
 exports.run = function(src, dst) {
@@ -8,13 +9,9 @@ exports.run = function(src, dst) {
   src = src.replace(/\/+$/, '');
   dst = dst.replace(/\/+$/, '');
 
-  // check dst is valid, create if if missing
-  if(fs.existsSync(dst)) {
-    if(!fs.statSync(dst).isDirectory()) {
+  // check dst is not a file
+  if(fs.existsSync(dst) && !fs.statSync(dst).isDirectory()) {
       throw 'The specified destination (' + dst + ') is a file, it must be a directory';
-    }
-  } else {
-    fs.mkdirSync(dst);
   }
 
   var files = shell.ls('-R', src);
@@ -23,17 +20,17 @@ exports.run = function(src, dst) {
     var fDst = dst + '/' + path;
     // is it a file or a dir?
     if (fs.statSync(fSrc).isDirectory()) {
-      if (fs.existsSync(fDst)) {
-        if(!fs.statSync(fDst).isDirectory()) {
+      if (fs.existsSync(fDst) && !fs.statSync(fDst).isDirectory()) {
           shell.rm(fDst);
-          fs.mkdirSync(fDst);
-        }
-      } else {
-        fs.mkdirSync(fDst);
       }
     } else {
       console.log(fSrc + ' > ' + fDst);
-      fs.renameSync(fSrc, fDst);
+        mv(fSrc, fDst, {mkdirp: true}, function(err){
+          if(err) {
+            console.log('Error trying to move ' + fSrc + ' to ' + fDst);
+            console.log(err);
+          }
+      });
     }
   });
 };

@@ -15,6 +15,10 @@
 
 ## Changelog
 
+### 1.0.1 (2015-09-18)
+
+Bugfix: support move across devices 
+
 ### 1.0.0 (2015-09-18)
 
-Initial version. Moves from one folder to the other
+Initial version. Moves from one folder to the other on same drives
