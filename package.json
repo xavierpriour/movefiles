@@ -1,6 +1,6 @@
 {
   "name": "movefiles",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "move files from one folder tree to another one",
   "license": "MIT",
   "author": "Xavier Priour <xavier.priour@bubblyware.com> (http://bubblyware.com/)",
@@ -8,7 +8,9 @@
     "move",
     "files"
   ],
-  "bin": {"mvf": "cli.js"},
+  "bin": {
+    "mvf": "cli.js"
+  },
   "main": "mvf.js",
   "scripts": {
     "test": "grunt test"
@@ -22,6 +24,7 @@
   },
   "homepage": "https://github.com/xavierpriour/movefiles",
   "dependencies": {
+    "mv": "^2.1.1",
     "shelljs": "^0.5.3"
   },
   "devDependencies": {
